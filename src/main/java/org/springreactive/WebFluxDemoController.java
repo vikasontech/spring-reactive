@@ -35,6 +35,7 @@ class WebFluxDemoController{
     });
 
     return Flux.fromStream(stream)
+        .take(10)
         .delayElements(Duration.ofSeconds(1));
   }
 
