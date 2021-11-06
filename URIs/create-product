@@ -1,0 +1,1 @@
+ http :8080/api/create/product <<< '{"id":1,"name":"sample","description":"sample product"}'

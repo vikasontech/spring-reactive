@@ -1,0 +1,20 @@
+version: '3.3'
+services:
+  mysql:
+    image: mysql:5.6.34
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci --init-connect='SET NAMES UTF8;' --innodb-flush-log-at-trx-commit=0
+    ports:
+    - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: 'password'
+      MYSQL_USER: 'vikas'
+      MYSQL_PASSWORD: 'vikas'
+      MYSQL_DATABASE: 'testdb'
+    expose:
+      - 3306
+    volumes:
+    - my-db:/var/lib/mysql
+
+volumes:
+  my-db:
+
