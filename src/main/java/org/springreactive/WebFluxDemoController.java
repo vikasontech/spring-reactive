@@ -4,12 +4,17 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.reactivestreams.Publisher;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.reactive.config.CorsRegistry;
+import org.springframework.web.reactive.function.server.RouterFunction;
+import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -17,15 +22,32 @@ import java.time.Duration;
 import java.util.Random;
 import java.util.stream.Stream;
 
+import static org.springframework.web.reactive.function.server.RequestPredicates.GET;
+import static org.springframework.web.reactive.function.server.RequestPredicates.POST;
+import static org.springframework.web.reactive.function.server.RouterFunctions.route;
+import static org.springframework.web.reactive.function.server.ServerResponse.ok;
+
 @RestController
 @RequestMapping("/api")
-class WebFluxDemoController{
+//@CrossOrigin(origins = "[*]", allowCredentials = "true")
+class WebFluxDemoController {
 
   @Autowired
   private ProductRepo productRepo;
 
-  @GetMapping(value = "/product-list", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-  public Flux<Product> productList(){
+
+  @Bean
+  public RouterFunction<ServerResponse> getProductRoute(ProductHandler productHandler) {
+    return route(GET("/students"),
+        request ->
+            ok()
+                .body(productHandler.getProduct(request), ProductEntity.class));
+  }
+
+
+  @CrossOrigin
+  @GetMapping(value = "/product-list", produces = MediaType.APPLICATION_STREAM_JSON_VALUE)
+  public Flux<Product> productList() {
     final Stream<Product> stream = Stream.generate(() -> {
       final Product product = new Product();
       product.setId(new Random().nextInt());
@@ -48,7 +70,7 @@ class WebFluxDemoController{
   }
 
   @GetMapping("/product/{id}")
-  public Mono<ProductEntity> findProduct( @PathVariable(name = "id") long id ) {
+  public Mono<ProductEntity> findProduct(@PathVariable(name = "id") long id) {
     return productRepo.findById(id);
   }
 

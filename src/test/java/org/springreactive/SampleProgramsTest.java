@@ -22,6 +22,7 @@ class SampleProgramsTest {
           SamplePrograms.Person.builder().age(25).name("ved").build(),
           SamplePrograms.Person.builder().age(18).name("vik").build(),
           SamplePrograms.Person.builder().age(45).name("ong").build());
+
   /* functional way using streams */
   public void ageGreaterThanTake3(int age) {
 
@@ -62,14 +63,12 @@ class SampleProgramsTest {
   }
 
   /* doesn't want max age */
-  /* functional way using streams */
+  /* declarative way using streams */
   private void ageGreaterThanTake2(int age) {
 
-    String name = peoples.stream()
+   final String name = peoples.stream()
         .filter(it -> it.getAge() >= age)
         .map(Person::getName)
-        .map(String::toUpperCase)
-        .map(String::toLowerCase)
         .findFirst()
         .orElse("No data found");
 
