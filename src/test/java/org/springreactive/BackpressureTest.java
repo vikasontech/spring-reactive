@@ -20,7 +20,7 @@ import static java.time.Duration.ofSeconds;
 public class BackpressureTest {
   private static final Logger log = LoggerFactory.getLogger(BackpressureTest.class);
 
-  @Test
+
   void backPressureExample_usingBaseSubscriber() throws IOException, InterruptedException {
 
     final BaseSubscriber<Integer> baseSubscriber = new BaseSubscriber<Integer>() {

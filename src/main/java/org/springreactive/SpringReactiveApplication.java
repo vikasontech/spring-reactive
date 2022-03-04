@@ -3,6 +3,7 @@ package org.springreactive;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.r2dbc.repository.config.EnableR2dbcRepositories;
+import reactor.core.publisher.Hooks;
 import reactor.tools.agent.ReactorDebugAgent;
 
 @SpringBootApplication
@@ -10,10 +11,6 @@ import reactor.tools.agent.ReactorDebugAgent;
 public class SpringReactiveApplication {
 
 	public static void main(String[] args) {
-//		ReactorDebugAgent.init();
 		SpringApplication.run(SpringReactiveApplication.class, args);
-//		ReactorDebugAgent.processExistingClasses();
-
 	}
-
 }
